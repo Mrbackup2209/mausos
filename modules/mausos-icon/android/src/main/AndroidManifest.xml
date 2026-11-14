@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!--
+    No permissions needed: an app may always enable or disable its own
+    components. The launcher entries themselves (two activity aliases) are
+    added to the app manifest by ../../app.plugin.js at prebuild time.
+  -->
+</manifest>

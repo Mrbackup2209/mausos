@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!--
+    Declared here as well as in the application manifest so the module is
+    self-contained: anything depending on it inherits the permission it needs
+    rather than relying on the host application to remember.
+
+    SEND_SMS is a "dangerous" permission, so this declaration alone is not
+    enough — it must also be granted by the user at runtime.
+  -->
+  <uses-permission android:name="android.permission.SEND_SMS" />
+</manifest>

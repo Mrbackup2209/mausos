@@ -1,0 +1,122 @@
+rules_version = '2';
+
+// ---------------------------------------------------------------------------
+// MauSOS — Firestore security rules
+//
+// These rules are the only thing protecting user data. The Firebase API key in
+// src/config/firebase.js identifies the project but authorises nothing; anyone
+// can extract it from the APK and issue requests. Access control therefore
+// happens here, on the server, where it cannot be bypassed by a modified client.
+//
+// Principle: a signed-in user may read and write only documents beneath their
+// own users/{uid} path. There is no rule anywhere that grants access to another
+// user's data, so cross-user access is impossible rather than merely unlikely.
+// ---------------------------------------------------------------------------
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Reusable conditions. Naming them keeps each rule readable and means a
+    // change to what "the owner" means happens in exactly one place.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Server-side validation of a contact. The app validates the same fields
+    // before saving, but client-side checks can be bypassed by anyone who
+    // calls the API directly; these cannot. Phone numbers must already be in
+    // E.164 form, which is what the app normalises them to.
+    function isValidContact(data) {
+      return data.keys().hasOnly(['name', 'phone', 'relationship', 'priority', 'createdAt', 'updatedAt'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 40
+        && data.phone is string && data.phone.matches('^[+][0-9]{10,15}$')
+        && data.relationship in ['Parent', 'Sibling', 'Spouse', 'Child', 'Friend', 'Colleague', 'Neighbour', 'Other']
+        && data.priority is int && data.priority >= 1 && data.priority <= 5;
+    }
+
+    // Shape of a new alert record. Fields outside this list are rejected, so
+    // nothing unexpected can be smuggled into the history.
+    function isValidNewAlert(data) {
+      return data.keys().hasOnly([
+          'triggerMethod', 'status', 'triggeredAt', 'clientTriggeredAt', 'location',
+          'address', 'locationSource', 'contactsNotified', 'channel', 'durationMs',
+          'photoUrl', 'resolvedAt', 'updatedAt'
+        ])
+        && data.triggerMethod in ['button', 'shake', 'duress']
+        && data.status in ['sent', 'failed', 'cancelled']
+        && data.contactsNotified is list && data.contactsNotified.size() <= 5
+        && data.resolvedAt == null;
+    }
+
+    // -----------------------------------------------------------------------
+    // User profile: name, email, phone, medical notes, settings.
+    // -----------------------------------------------------------------------
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+
+      // Account deletion is deliberately not exposed to the client. Removing a
+      // profile while its alert history remains would leave orphaned records.
+      allow delete: if false;
+
+      // ---------------------------------------------------------------------
+      // Emergency contacts.
+      // ---------------------------------------------------------------------
+      match /contacts/{contactId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidContact(request.resource.data);
+      }
+
+      // ---------------------------------------------------------------------
+      // Alert history.
+      //
+      // Append-only by design. Each record is evidence of where the user was,
+      // when, and what was captured. Permitting deletion would let anyone with
+      // brief access to an unlocked phone erase that evidence, so delete is
+      // denied outright — including to the owner.
+      //
+      // Update remains allowed so an alert can be marked resolved or retracted
+      // as a false alarm; the original location and timestamp are preserved.
+      // ---------------------------------------------------------------------
+      match /alerts/{alertId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidNewAlert(request.resource.data);
+
+        // After creation only two kinds of change are allowed:
+        //   1. the status, and only to "resolved" or "falseAlarm";
+        //   2. a photo link, once, when the photo finished uploading after the
+        //      alert was sent. A photo already recorded can never be replaced.
+        // Location, time and recipients are fixed the moment the alert is
+        // written: the record is evidence, and evidence that can be edited
+        // afterwards is worth very little.
+        allow update: if isOwner(userId) && (
+          (request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['status', 'resolvedAt', 'updatedAt'])
+            && request.resource.data.status in ['resolved', 'falseAlarm'])
+          ||
+          (request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['photoUrl', 'updatedAt'])
+            && resource.data.photoUrl == null
+            && request.resource.data.photoUrl is string
+            && request.resource.data.photoUrl.matches('^https://res[.]cloudinary[.]com/.*'))
+        );
+
+        allow delete: if false;
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // Anything not matched above is denied. Firestore denies by default, but
+    // stating it makes the intent explicit to a reader: there is no path to
+    // data outside a user's own subtree.
+    // -----------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

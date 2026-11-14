@@ -1,0 +1,61 @@
+{
+  "expo": {
+    "name": "MauSOS",
+    "slug": "mausos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#F8FAFC",
+      "resizeMode": "contain",
+      "image": "./assets/splash-blank.png"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#9B1019"
+      },
+      "package": "com.mausos.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "SEND_SMS",
+        "VIBRATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-blank.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#F8FAFC"
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "MauSOS sends your location to your emergency contacts when you raise an alert."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "MauSOS captures a photo of your surroundings when you raise an alert, so your contacts can see your situation.",
+          "recordAudioAndroid": false
+        }
+      ],
+      "./modules/mausos-icon/app.plugin.js"
+    ]
+  }
+}
