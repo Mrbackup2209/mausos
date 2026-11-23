@@ -77,7 +77,7 @@ export default function CountdownScreen({ navigation }) {
    * long side, preferring the 4:3 sizes that use the whole sensor. Contacts
    * receive 1280 px anyway (deliveryUrl), so anything larger only makes the
    * upload slower: a full-resolution A50 photo did not finish uploading in
-   * 20 s (C-11).
+   * 20 s.
    */
   function choosePictureSize(sizes) {
     const parsed = (sizes || [])
@@ -115,7 +115,7 @@ export default function CountdownScreen({ navigation }) {
     try {
       // skipProcessing: return the camera's own JPEG instead of decoding,
       // rotating and re-compressing it on the phone. On the A50 the processed
-      // capture took over 7 s — longer than the countdown (C-11). Orientation
+      // capture took over 7 s — longer than the countdown. Orientation
       // stays in the EXIF data, which Cloudinary applies on delivery.
       const picture = await cameraRef.current.takePictureAsync({
         skipProcessing: true,

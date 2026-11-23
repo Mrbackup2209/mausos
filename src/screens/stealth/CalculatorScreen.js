@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { checkCode } from '../../services/stealthService';
 
 // ---------------------------------------------------------------------------
-// The stealth disguise: a plain, fully working calculator (D-33).
+// The stealth disguise: a plain, fully working calculator.
 //
 // It must survive being used as a calculator by someone else, so every key
 // works and sums follow normal precedence (× and ÷ before + and −). Nothing on
@@ -16,7 +16,7 @@ import { checkCode } from '../../services/stealthService';
 // 4–8 digits, = also checks it against the stored code hashes:
 //   - the unlock code opens MauSOS;
 //   - the duress code silently sends an alert, and the calculator carries on
-//     as if = had been pressed on an ordinary number — no flash, no
+//     as if = had been pressed on an ordinary number. No flash, no
 //     vibration, nothing for an onlooker to notice.
 // Any other number just behaves like a number.
 // ---------------------------------------------------------------------------
@@ -143,9 +143,9 @@ export default function CalculatorScreen({ onUnlock, onDuress }) {
   const expression = tokens.join(' ');
 
   return (
-    // Shown inside a Modal (C-14). Plain views with the notch padding applied
+    // Shown inside a Modal. Plain views with the notch padding applied
     // directly: the native SafeAreaView mis-measured itself inside a Modal on
-    // Android and collapsed the keypad to its last row (C-15).
+    // Android and collapsed the keypad to its last row.
     <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <View style={styles.screen}>
         <StatusBar style="light" />

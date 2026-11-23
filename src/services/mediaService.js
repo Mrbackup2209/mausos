@@ -4,7 +4,7 @@ import { cloudinaryConfig, isCloudinaryConfigured } from '../config/cloudinary';
 // ---------------------------------------------------------------------------
 // Alert photos: camera permission, upload, and clean-up.
 //
-// The photo is uploaded to Cloudinary rather than Firebase Storage (D-06): the
+// The photo is uploaded to Cloudinary rather than Firebase Storage: the
 // contacts who receive the alert have no account here, so the link must open
 // for anyone who holds it. Each upload gets a random public id, so the link is
 // unguessable even though it is public.
@@ -48,7 +48,7 @@ function deliveryUrl(secureUrl) {
  *
  * Not `fetch`: from Expo SDK 52 the global fetch is Expo's implementation,
  * which rejects React Native's { uri, type, name } file parts with
- * "Unsupported FormDataPart implementation" (C-10). XMLHttpRequest still goes
+ * "Unsupported FormDataPart implementation". XMLHttpRequest still goes
  * through React Native's networking layer, which streams the file from disk.
  */
 function postForm(url, form, timeoutMs) {

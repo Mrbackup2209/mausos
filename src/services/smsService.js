@@ -134,7 +134,7 @@ export async function sendSms(phoneNumber, message) {
  * contact is attributable to that contact rather than to the batch. The result
  * records each outcome so the alert can report per-contact delivery.
  *
- * One failure never stops the others — reaching three of four contacts is
+ * One failure never stops the others; reaching three of four contacts is
  * materially better than reaching none.
  */
 export async function sendToContacts(contacts, message) {
@@ -255,7 +255,7 @@ export async function openComposer(phoneNumbers, message) {
       phoneNumbers.map((p) => normalisePhone(p)),
       message
     );
-    // iOS reports 'sent' or 'cancelled'; Android reports 'unknown'.
+    //Android reports 'unknown'.
     return { success: result !== 'cancelled', outcome: result === 'unknown' ? 'opened' : result };
   } catch (error) {
     return { success: false, code: 'E_COMPOSER_FAILED', error: error?.message || 'Could not open messaging.' };
@@ -277,9 +277,9 @@ export async function dispatchAlert(contacts, message, { silentOnly = false } = 
     return { channel: 'none', delivered: 0, failed: 0, error: 'No emergency contacts.' };
   }
 
-  // Duress alerts: nothing may appear on screen — no permission prompt, no
+  // Duress alerts: nothing may appear on screen, no permission prompt, no
   // messaging app. Send silently if this phone allows it; otherwise send
-  // nothing, and the alert is still recorded (D-33).
+  // nothing, and the alert is still recorded.
   if (silentOnly) {
     if (!isSilentSendSupported() || !hasSmsPermission()) {
       return { channel: 'none', delivered: 0, failed: 0, error: 'Silent sending unavailable.' };

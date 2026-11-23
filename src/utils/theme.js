@@ -17,7 +17,7 @@ export const colors = {
   // the trigger on screen is the same red as the icon on the home screen.
   //
   // Red is reserved exclusively for emergency actions. Navy above carries the
-  // ordinary interface — buttons, links, headings — precisely so the single red
+  // ordinary interface, buttons, links, headings precisely so the single red
   // control cannot be confused with anything else. An interface where
   // everything is red has no way to make the SOS button stand out, which
   // matters more here than matching the logo everywhere.

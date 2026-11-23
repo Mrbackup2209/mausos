@@ -138,13 +138,13 @@ function MainStack() {
   );
 }
 
-// The calculator disguise (D-33). Drawn over the whole app rather than
+// The calculator disguise. Drawn over the whole app rather than
 // replacing it, so anything running underneath — an alert being sent — keeps
 // running while the calculator is showing.
 //
 // It is shown in a Modal, which Android draws as a separate window above the
 // app. An ordinary view, even with a high z-index, was drawn *behind* the
-// navigator's native screens and so was invisible (C-14). The back button is
+// navigator's native screens and so was invisible. The back button is
 // ignored while it shows, so the disguise cannot be dismissed without a code.
 function StealthGate() {
   const { user, profile } = useAuth();

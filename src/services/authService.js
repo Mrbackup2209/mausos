@@ -153,7 +153,7 @@ export async function resetPassword(email) {
   } catch (error) {
     // An unknown address is reported as success: the screen then says "if an
     // account exists, a link has been sent", the same as for a real account,
-    // so the reset form cannot reveal which addresses are registered (D-11).
+    // so the reset form cannot reveal which addresses are registered.
     if (error?.code === 'auth/user-not-found') return { success: true };
     return { success: false, error: toFriendlyError(error) };
   }

@@ -3,7 +3,7 @@ import { sha256 } from '../utils/sha256';
 import { setDisguised, isIconSwitchSupported } from '../../modules/mausos-icon/src';
 
 // ---------------------------------------------------------------------------
-// Stealth mode: the unlock and duress codes (D-33).
+// Stealth mode: the unlock and duress codes.
 //
 // Storage. The codes never leave the phone and are never stored as typed.
 // Each is salted and hashed (SHA-256, repeated HASH_ROUNDS times), and only
@@ -80,7 +80,7 @@ export async function configureStealth(unlock, duress) {
 
 /**
  * Turns the disguise on or off. The home-screen icon follows: a calculator
- * named "Calculator" while on, the MauSOS icon and name while off (D-34).
+ * named "Calculator" while on, the MauSOS icon and name while off.
  * The codes are kept, so turning it back on needs no new setup.
  */
 export async function setStealthEnabled(enabled) {

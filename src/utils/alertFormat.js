@@ -90,8 +90,8 @@ const DEVICE_BLOCKED = new Set(['E_SEND_THREW', 'E_NO_SMS_MANAGER', 'E_UNSUPPORT
 
 /**
  * A duress alert that reached nobody because this phone will not send SMS
- * without showing the messaging app. Recorded on purpose rather than made
- * visible (D-33), so it is described as such rather than as a fault.
+ * without showing the messaging app. 
+ * Recorded on purpose rather than made visible, so it is described as such rather than as a fault.
  */
 export function isSilentDuressBlocked(alert) {
   if (alert.triggerMethod !== 'duress') return false;
@@ -108,7 +108,7 @@ export function summarise(alert) {
       return 'Cancelled during the countdown';
     case 'failed':
       // A duress alert on a phone that cannot send SMS silently is recorded
-      // without messaging anyone, by design (D-33) — not a fault.
+      // without messaging anyone, by design not a fault.
       if (isSilentDuressBlocked(alert)) {
         return 'Saved silently, SMS blocked';
       }

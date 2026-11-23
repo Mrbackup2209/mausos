@@ -25,8 +25,7 @@ import { ALERT_SCREENS } from './navigationRef';
 // accidental shake can still be stopped. Shakes are ignored while an alert
 // screen is open, and for a few seconds after it closes (SHAKE.REARM_MS), so
 // the same burst of shaking cannot start a second alert. The pause is short on
-// purpose: someone who cancels an accidental alert may need a real one moments
-// later (C-12).
+// purpose: someone who cancels an accidental alert may need a real one moments later.
 // ---------------------------------------------------------------------------
 
 export default function ShakeTrigger({ navigationRef }) {

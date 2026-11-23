@@ -16,7 +16,7 @@ import appConfig from '../../../app.json';
 // ---------------------------------------------------------------------------
 // Settings.
 //
-// Every choice saves the moment it is made — there is no Save button to
+// Every choice saves the moment it is made, there is no Save button to
 // forget. Settings live on the user's Firestore profile rather than only on
 // the phone, so they survive a reinstall or a new phone.
 //

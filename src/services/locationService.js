@@ -7,7 +7,7 @@ import { ALERT } from '../utils/constants';
 //
 // GPS works without any network connection: position comes from satellites,
 // not from the internet. Only the street address needs data, so the alert
-// never waits on it — if reverse geocoding fails, the message carries the
+// never waits on it. If reverse geocoding fails, the message carries the
 // coordinates and a map link instead, which is just as usable to a contact.
 //
 // Strategy, in order:
@@ -15,7 +15,7 @@ import { ALERT } from '../utils/constants';
 //   2. The last position Android already knows, if recent enough. Indoors or
 //      in a basement a fresh fix may never arrive, and a position from a few
 //      minutes ago is far better than none.
-//   3. No location — the alert still sends, saying so.
+//   3. No location, the alert still sends, saying so.
 //
 // The alert flow starts this the moment the countdown begins, so the fix is
 // usually ready by the time the countdown ends and costs no extra time.

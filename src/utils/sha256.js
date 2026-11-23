@@ -2,7 +2,7 @@
 // SHA-256 in plain JavaScript (FIPS 180-4).
 //
 // Used to store the stealth unlock and duress codes as one-way hashes rather
-// than as the codes themselves (D-33). A small self-contained implementation
+// than as the codes themselves. A small self-contained implementation
 // avoids adding a native crypto module, which would need a rebuild.
 // Returns the digest as a lowercase hex string.
 // ---------------------------------------------------------------------------

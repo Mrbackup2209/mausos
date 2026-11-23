@@ -5,7 +5,7 @@ import { db } from '../config/firebase';
 // Alert history: read-only, live.
 //
 // The app never edits or deletes these records from here; the security rules
-// would refuse it anyway (D-28). Both functions use live listeners, so a photo
+// would refuse it anyway. Both functions use live listeners, so a photo
 // that arrives after the alert, or an all-clear sent from another screen,
 // appears in the history without a refresh.
 //

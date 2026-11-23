@@ -27,8 +27,8 @@ export default function LoginScreen({ navigation }) {
     setSubmitError('');
 
     // Login validation is deliberately lighter than registration: we only check
-    // the fields are present and the email is shaped correctly. Firebase
-    // decides whether the credentials are actually right.
+    // the fields are present and the email is shaped correctly.
+    // Firebase decides whether the credentials are actually right.
     const { isValid, errors: fieldErrors } = runValidators({
       email: validateEmail(email),
       password: password ? null : 'Password is required',

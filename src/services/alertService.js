@@ -278,7 +278,7 @@ export async function sendAlert({ uid, profile, contacts, onProgress, silentOnly
 }
 
 /**
- * A duress alert, raised from the stealth calculator (D-33). It skips the
+ * A duress alert, raised from the stealth calculator. It skips the
  * countdown and the camera — both would be visible — and never opens the
  * messaging app. Repeats within a minute are ignored, so pressing = again
  * does not send a second round of messages.

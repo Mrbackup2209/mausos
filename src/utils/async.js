@@ -5,7 +5,7 @@
 /**
  * Races a promise against a deadline.
  *
- * Firestore writes never reject when the backend is unreachable — they queue
+ * Firestore writes never reject when the backend is unreachable. They queue
  * locally and the promise stays pending. Without a deadline a failed write is
  * indistinguishable from a slow one and the caller waits forever. Every
  * Firestore call in the app goes through this.

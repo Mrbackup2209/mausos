@@ -31,13 +31,13 @@ export const SHAKE = {
   // Acceleration magnitude in g. A still phone reads about 1.0, walking reads
   // roughly 1.2 to 1.5, so these sit clear of normal handling. Lowered after
   // testing on the A50, where the first values (3.2 / 2.5 / 2.0) needed an
-  // uncomfortably hard shake even on High (C-12).
+  // uncomfortably hard shake even on High.
   THRESHOLD_LOW: 2.7,
   THRESHOLD_MEDIUM: 2.2,
   THRESHOLD_HIGH: 1.8,
 
   // A single jolt is not enough. We require several threshold crossings inside
-  // this window — roughly a second of deliberate shaking.
+  // this window, roughly a second of deliberate shaking.
   WINDOW_MS: 1500,
   REQUIRED_SPIKES: 4,
 
@@ -45,7 +45,7 @@ export const SHAKE = {
   // fell between two readings and was missed.
   UPDATE_INTERVAL_MS: 50,
 
-  // After an alert screen closes — sent or cancelled — shakes are ignored this
+  // After an alert screen closes, sent or cancelled. Shakes are ignored this
   // long, so the shaking that started it cannot immediately start another.
   REARM_MS: 5000,
 };
